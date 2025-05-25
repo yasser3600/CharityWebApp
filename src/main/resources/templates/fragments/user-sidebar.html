@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+    <nav th:fragment="sidebar"
+        class="w-full md:w-64 bg-white shadow-lg fixed md:static transform -translate-x-full md:translate-x-0 transition-transform duration-300 h-screen z-40">
+        <div class="flex flex-col p-4 h-full">
+            <div class="mb-8 flex items-center gap-2 mt-2">
+                <i class="fa-solid fa-user-circle text-3xl text-blue-600"></i>
+                <span class="font-bold text-xl text-blue-700">Mon Espace</span>
+            </div>
+            <ul class="flex-1 space-y-2">
+                <li>
+                    <a th:href="@{/user/profile}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium"
+                        th:classappend="${#httpServletRequest.requestURI == '/user/profile'} ? 'bg-blue-100 text-blue-700'">
+                        <i class="fa-solid fa-user"></i> Mon profil
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/dons}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium"
+                        th:classappend="${#httpServletRequest.requestURI == '/user/dons'} ? 'bg-blue-100 text-blue-700'">
+                        <i class="fa-solid fa-hand-holding-heart"></i> Mes dons
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/user/actions}"
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium"
+                        th:classappend="${#httpServletRequest.requestURI == '/user/actions'} ? 'bg-blue-100 text-blue-700'">
+                        <i class="fa-solid fa-star"></i> Actions de charité
+                    </a>
+                </li>
+            </ul>
+            <div>
+                <form th:action="@{/logout}" method="post" class="mb-0">
+                    <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 text-red-600 font-medium">
+                        <i class="fa-solid fa-right-from-bracket"></i> 
+                        Déconnexion
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</body>
+
+</html>

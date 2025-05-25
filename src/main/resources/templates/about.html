@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>À propos de nous - Tabaraa</title>
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, #1a75ff 0%, #00a3ff 100%);
+            color: white;
+            padding: 6rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .mission-card {
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mission-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e6f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .mission-icon i {
+            font-size: 24px;
+            color: #1a75ff;
+        }
+
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .stats-section {
+            background-color: #f8faff;
+            padding: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a75ff;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <section class="about-hero text-center">
+            <div class="container">
+                <h1 class="display-4 mb-4">Notre Mission</h1>
+                <p class="lead mb-0 mx-auto" style="max-width: 800px;">
+                    Tabaraa est une plateforme innovante dédiée à la collecte de fonds caritative, 
+                    rendant le don plus transparent, sécurisé et accessible à tous.
+                </p>
+            </div>
+        </section>
+
+        <!-- Notre Vision -->
+        <section class="container mb-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="mission-card p-4">
+                        <div class="mission-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Notre Vision</h3>
+                        <p class="text-muted">
+                            Créer un monde où la générosité n'a pas de frontières et où chaque don 
+                            fait une réelle différence dans la vie des autres.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mission-card p-4">
+                        <div class="mission-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Notre Mission</h3>
+                        <p class="text-muted">
+                            Faciliter et sécuriser les dons en ligne tout en assurant une transparence 
+                            totale sur l'utilisation des fonds collectés.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mission-card p-4">
+                        <div class="mission-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="h4 mb-3">Notre Impact</h3>
+                        <p class="text-muted">
+                            Connecter les donateurs aux causes qui leur tiennent à cœur et maximiser 
+                            l'impact de chaque contribution.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nos Valeurs -->
+        <section class="bg-light py-5 mb-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Nos Valeurs Fondamentales</h2>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="fas fa-lock fa-2x text-primary mb-3"></i>
+                            <h4>Sécurité</h4>
+                            <p class="text-muted">Protection maximale des données et des transactions</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="fas fa-search fa-2x text-primary mb-3"></i>
+                            <h4>Transparence</h4>
+                            <p class="text-muted">Suivi détaillé de chaque don et de son impact</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="fas fa-handshake fa-2x text-primary mb-3"></i>
+                            <h4>Confiance</h4>
+                            <p class="text-muted">Relations durables avec nos partenaires et donateurs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                            <h4>Innovation</h4>
+                            <p class="text-muted">Amélioration continue de nos services</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statistiques -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-number">100K+</div>
+                            <div class="text-muted">Donateurs Actifs</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-number">1M+</div>
+                            <div class="text-muted">Dons Réalisés</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="text-muted">Pays Couverts</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-item">
+                            <div class="stat-number">95%</div>
+                            <div class="text-muted">Taux de Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="container py-5">
+            <div class="text-center mb-5">
+                <h2>Contactez-nous</h2>
+                <p class="text-muted">Nous sommes là pour répondre à vos questions</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                                <h5>Email</h5>
+                                <p class="text-muted">contact@tabaraa.org</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                                <h5>Téléphone</h5>
+                                <p class="text-muted">+212 5XX-XXXXXX</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                                <h5>Adresse</h5>
+                                <p class="text-muted">123 Rue Example, Ville, Pays</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

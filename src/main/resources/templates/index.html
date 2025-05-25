@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      th:lang="${#locale.language}" 
+      th:dir="${#locale.language == 'ar' ? 'rtl' : 'ltr'}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabaraa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --secondary-color: #57c5e0;
+            --accent-color: #0d2f3f;
+            --light-blue: #e6f7fc;
+            --dark-color: #333;
+            --light-color: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        html[dir="rtl"] body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Noto Sans Arabic', 'Arial';
+        }
+
+        html[dir="rtl"] .text-lg-start {
+            text-align: right !important;
+        }
+
+        html[dir="rtl"] .me-3 {
+            margin-left: 1rem !important;
+            margin-right: 0 !important;
+        }
+
+        html[dir="rtl"] .me-auto {
+            margin-left: auto !important;
+            margin-right: 0 !important;
+        }
+
+        html[dir="rtl"] .dropdown-menu {
+            text-align: right;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand img {
+            height: 50px;
+        }
+
+        .nav-link {
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .hero-section {
+            background-color: var(--light-blue);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(87, 197, 224, 0.1) 0%, rgba(26, 95, 122, 0.05) 80%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            background-color: var(--accent-color);
+            color: white;
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+        }
+
+        .hero-tagline {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            font-weight: 600;
+            max-width: 600px;
+            text-align: center;
+            margin: 0 auto 30px;
+        }
+
+        .stats-section {
+            background-color: white;
+            padding: 50px 0;
+            border-radius: 20px;
+            margin-top: -50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 3;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-text {
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .quick-donation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        html[dir="rtl"] .quick-donation {
+            right: auto;
+            left: 30px;
+        }
+
+        .language-selector img {
+            width: 20px;
+            margin-right: 5px;
+        }
+
+        html[dir="rtl"] .language-selector img {
+            margin-right: 0;
+            margin-left: 5px;
+        }
+
+        footer {
+            background-color: var(--light-blue) !important;
+        }
+
+        footer h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        footer .fab {
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        footer .fab:hover {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero-tagline {
+                font-size: 1.4rem;
+            }
+
+            .stat-item {
+                margin-bottom: 30px;
+            }
+        }
+
+        [dir="rtl"] {
+            /* Styles pour la direction RTL */
+            text-align: right;
+        }
+
+        [dir="rtl"] .navbar-nav {
+            padding-right: 0;
+        }
+
+        [dir="rtl"] .dropdown-menu {
+            text-align: right;
+        }
+
+        [dir="rtl"] .me-auto {
+            margin-left: auto !important;
+            margin-right: 0 !important;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+
+        .progress-bar {
+            transition: width 1.5s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <img src="../static/images/logo.png" th:src="@{/images/logo.png}" alt="Tabaraa Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/}" th:text="#{home}">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/volunteer}" th:text="#{volunteer}">Devenir bénévole</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/campaigns}" th:text="#{campaigns}">Campagnes</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a th:href="@{/create-site}" class="btn btn-primary me-3" th:text="#{create.site}">Créer votre
+                        site</a>
+
+                    <!-- Language Selector -->
+                    <div class="btn-group me-3">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <span th:text="${#locale.language == 'fr'} ? 'FR' : (${#locale.language == 'ar'} ? 'AR' : 'EN')">FR</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="?lang=fr">Français</a></li>
+                            <li><a class="dropdown-item" href="?lang=en">English</a></li>
+                            <li><a class="dropdown-item" href="?lang=ar">العربية</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Auth Buttons -->
+                    <div class="btn-group">
+                        <a th:href="@{/login}" class="btn btn-outline-primary">Sign In</a>
+                        <a th:href="@{/signup}" class="btn btn-outline-primary ms-2">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+                    <h1 class="hero-title text-center mx-auto mx-lg-0">Tabaraa</h1>
+                    <p class="hero-tagline text-center mx-auto mx-lg-0" th:text="#{hero.tagline}">Nous permettons de
+                        faire le bien avec un financement transparent et sécurisé</p>
+                    <div class="d-flex justify-content-center justify-content-lg-start">
+                        <a th:href="@{/about}" class="btn btn-primary me-3" th:text="#{about}">En savoir plus</a>
+                        <a th:href="@{/campaigns}" class="btn btn-outline-primary" th:text="#{donate}">Faire un don</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="../static/images/tabletmokup.png" th:src="@{/images/tabletmokup.png}"
+                        alt="Tablet Mockup" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="container stats-section">
+        <div class="row">
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-hands-helping"></i></div>
+                <div class="stat-number" th:text="${campaignsCount}">5,490</div>
+                <div class="stat-text" th:text="#{stats.platform.campaigns}">Campagnes de plateforme</div>
+            </div>
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-desktop"></i></div>
+                <div class="stat-number" th:text="${websitesCount}">4,456</div>
+                <div class="stat-text" th:text="#{stats.websites}">Sites web d'associations</div>
+            </div>
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-globe-americas"></i></div>
+                <div class="stat-number" th:text="${countriesCount}">69</div>
+                <div class="stat-text" th:text="#{stats.countries}">Pays où nous opérons</div>
+            </div>
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                <div class="stat-number" th:text="${donorsCount}">110,153</div>
+                <div class="stat-text" th:text="#{stats.donors}">Nos donateurs</div>
+            </div>
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number" th:text="${volunteersCount}">2,804</div>
+                <div class="stat-text" th:text="#{stats.volunteers}">Bénévoles avec nous</div>
+            </div>
+            <div class="col-md-4 col-lg-2 stat-item">
+                <div class="stat-icon"><i class="fas fa-donate"></i></div>
+                <div class="stat-number">+1M</div>
+                <div class="stat-text">Montants collectés</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Campaigns Section -->
+    <section class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="h1 mb-3" style="color: var(--primary-color)">Campagnes en vedette</h2>
+            <p class="text-muted">Découvrez nos campagnes les plus urgentes et faites la différence aujourd'hui</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Afficher seulement les 3 premières campagnes -->
+            <div th:each="action, iterStat : ${actions}" th:if="${iterStat.index < 3}" class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm hover-card" style="border-radius: 15px; transition: all 0.3s ease;">
+                    <!-- Image de la campagne -->
+                    <div style="height: 200px; overflow: hidden; border-radius: 15px 15px 0 0;">
+                        <img th:if="${action.imageUrl != null}" 
+                             th:src="${action.imageUrl}"
+                             class="w-100 h-100"
+                             style="object-fit: cover;"
+                             th:alt="${action.titre}">
+                        <img th:unless="${action.imageUrl != null}"
+                             th:src="@{/uploads/default-campaign.jpg}"
+                             class="w-100 h-100"
+                             style="object-fit: cover;"
+                             alt="Image par défaut">
+                    </div>
+
+                    <div class="card-body p-4">
+                        <!-- Titre et Description -->
+                        <h3 class="h5 mb-3" style="color: var(--primary-color)" th:text="${action.titre}">Titre de la campagne</h3>
+                        <p class="card-text text-muted mb-3" th:text="${#strings.abbreviate(action.description, 100)}">Description courte...</p>
+
+                        <!-- Barre de progression -->
+                        <div class="progress mb-3" style="height: 8px; background-color: var(--light-blue);">
+                            <div class="progress-bar" 
+                                 th:style="'width: ' + ${(action.montantCollecte/action.objectifCollecte) * 100} + '%; background-color: var(--primary-color);'">
+                            </div>
+                        </div>
+
+                        <!-- Statistiques -->
+                        <div class="d-flex justify-content-between mb-3">
+                            <div>
+                                <small class="text-muted">Collecté</small>
+                                <div class="fw-bold" style="color: var(--primary-color)" th:text="${action.montantCollecte + ' USD'}">0 USD</div>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted">Objectif</small>
+                                <div class="fw-bold" th:text="${action.objectifCollecte + ' USD'}">0 USD</div>
+                            </div>
+                        </div>
+
+                        <!-- Bouton Faire un don -->
+                        <a th:href="@{/campaigns/{id}(id=${action.id})}" 
+                           class="btn w-100" 
+                           style="background-color: var(--primary-color); color: white;">
+                            <i class="fas fa-heart me-2"></i>Faire un don
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton Voir plus -->
+        <div class="text-center mt-5">
+            <a th:href="@{/campaigns}" 
+               class="btn btn-outline-primary btn-lg px-5"
+               style="border-color: var(--primary-color); color: var(--primary-color);">
+                Voir toutes les campagnes
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <img src="../static/images/logo.png" th:src="@{/static/images/logo.png}"
+                        alt="Tabaraa Logo" class="mb-3" style="height: 60px;">
+                    <p class="mt-3" th:text="#{about.us}">Nous sommes dédiés à aider ceux qui en ont besoin avec
+                        transparence et intégrité.</p>
+                </div>
+                <div class="col-md-2 mb-4 mb-md-0">
+                    <h5 th:text="#{quick.links}">Liens rapides</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" th:href="@{/about}" th:text="#{about}">À propos</a></li>
+                        <li><a href="#" th:href="@{/campaigns}" th:text="#{campaigns}">Campagnes</a></li>
+                        <li><a href="#" th:href="@{/volunteer}" th:text="#{volunteer}">Bénévolat</a></li>
+                        <li><a href="#" th:href="@{/contact}" th:text="#{contact}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <h5 th:text="#{contact}">Contactez-nous</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Rue de la Charité, Paris</li>
+                        <li><i class="fas fa-phone me-2"></i> +33 1 23 45 67 89</li>
+                        <li><i class="fas fa-envelope me-2"></i> contact@Tabaraa.org</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5 th:text="#{follow.us}">Suivez-nous</h5>
+                    <div class="d-flex gap-3 fs-4">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="mt-3">
+                        <h6 th:text="#{newsletter.signup}">Inscrivez-vous à notre newsletter</h6>
+                        <form th:action="@{/newsletter/subscribe}" method="post">
+                            <div class="input-group">
+                                <input type="email" class="form-control" th:placeholder="#{email.placeholder}"
+                                    placeholder="Votre email" required>
+                                <button class="btn btn-primary" type="submit" th:text="#{signup}">S'inscrire</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2023</span> Charity
+                    Foundation. <span th:text="#{copyright}">Tous droits réservés</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

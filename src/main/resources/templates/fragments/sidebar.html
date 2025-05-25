@@ -1,0 +1,51 @@
+<div th:fragment="sidebar" sec:authorize="hasRole('ORGANISATION')">
+    <aside class="w-[250px] min-h-screen bg-white border-r border-gray-200 flex flex-col py-6 px-4">
+        <!-- Logo de l'organisation -->
+        <div class="mb-8 flex items-center justify-center">
+            <img th:if="${organisation != null && organisation.logo != null}"
+                th:src="@{${organisation.logo}}"
+                alt="Logo Organisation" class="h-12 w-auto" />
+            <img th:if="${organisation == null || organisation.logo == null}"
+                th:src="@{/images/logo.png}"
+                alt="Logo par défaut" class="h-12 w-auto" />
+        </div>
+        <nav class="flex flex-col gap-2">
+            <a href="/organisation/dashboard"
+                class="flex items-center gap-3 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 text-sm font-medium">
+                <i class="fa-solid fa-house"></i> Tableau de bord
+            </a>
+            <a href="/organisation/actions/create"
+                class="flex items-center gap-3 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 text-sm font-medium">
+                <i class="fa-solid fa-plus"></i> Créer une action
+            </a>
+            <a href="/organisation/actions"
+                class="flex items-center gap-3 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 text-sm font-medium">
+                <i class="fa-solid fa-clipboard-list"></i> Mes actions
+            </a>
+            <a href="/organisation/participants"
+                class="flex items-center gap-3 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 text-sm font-medium">
+                <i class="fa-solid fa-users"></i> Participants
+            </a>
+            <!-- Supprimer les liens Dons et Notifications -->
+            <a href="/organisation/profil"
+                class="flex items-center gap-3 px-3 py-2 rounded text-gray-700 hover:bg-gray-100 text-sm font-medium">
+                <i class="fa-solid fa-pen"></i> Mon profil
+            </a>
+            <form th:action="@{/logout}" method="post" class="mb-0">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" 
+                        class="w-full flex items-center gap-3 px-3 py-2 rounded text-red-600 hover:bg-red-50 text-sm font-medium">
+                    <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+                </button>
+            </form>
+        </nav>
+    </aside>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.8/dist/countUp.umd.js"></script>
+
+
+<script>
+    const countUp = window.CountUp;
+    new countUp('count-actions', actions).start();
+</script>

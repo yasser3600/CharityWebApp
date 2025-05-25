@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{user/layout-user}">
+
+<head>
+    <title>Mes Participations</title>
+</head>
+
+<body>
+    <section layout:fragment="content">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow p-8">
+            <h2 class="text-2xl font-bold mb-6">Mes Participations</h2>
+            <table class="min-w-full table-auto">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="px-4 py-2 text-left">Date</th>
+                        <th class="px-4 py-2 text-left">Action</th>
+                        <th class="px-4 py-2 text-left">Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="part : ${participations}">
+                        <td class="px-4 py-2" th:text="${#dates.format(part.dateParticipation, 'dd/MM/yyyy')}"></td>
+                        <td class="px-4 py-2" th:text="${part.action.titre}"></td>
+                        <td class="px-4 py-2" th:text="${part.statut}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+
+</html>

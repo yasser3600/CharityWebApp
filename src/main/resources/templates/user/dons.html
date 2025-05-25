@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{user/layout-user}">
+<head>
+    <title>Mes Dons</title>
+    <style>
+        .donation-card {
+            transition: transform 0.2s;
+        }
+        .donation-card:hover {
+            transform: translateY(-2px);
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .status-paid {
+            background-color: #DEF7EC;
+            color: #03543F;
+        }
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+    </style>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Mes Dons</h1>
+                <a href="/campaigns" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
+                    <i class="fas fa-plus mr-2"></i>Faire un nouveau don
+                </a>
+            </div>
+
+            <!-- Message si aucun don -->
+            <div th:if="${#lists.isEmpty(dons)}" class="text-center py-8">
+                <i class="fas fa-hand-holding-heart text-gray-400 text-5xl mb-4"></i>
+                <p class="text-gray-500">Vous n'avez pas encore fait de dons</p>
+                <a href="/campaigns" class="text-blue-500 hover:text-blue-600 mt-2 inline-block">
+                    Découvrir les campagnes
+                </a>
+            </div>
+
+            <!-- Liste des dons -->
+            <div th:unless="${#lists.isEmpty(dons)}" class="grid gap-4">
+                <div th:each="don : ${dons}" class="donation-card bg-gray-50 p-4 rounded-lg border border-gray
+-200">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-semibold text-lg text-gray-800" th:text="${don.action.titre}">Titre de l'action</h3>
+                            <div class="text-sm text-gray-500 mt-1" th:text="${#temporals.format(don.dateDon, 'dd MMMM yyyy')}">Date</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-lg font-bold text-gray-800 mb-1" th:text="${don.montant + ' USD'}">Montant</div>
+                            <span th:class="${don.statutPaiement == 'PAYE' ? 'status-badge status-paid' : 'status-badge status-pending'}"
+                                  th:text="${don.statutPaiement}">Statut</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end mt-4" th:if="${don.statutPaiement == 'PAYE'}">
+                        <a th:href="@{'/api/dons/recu/' + ${don.id}}" 
+                           class="flex items-center text-blue-500 hover:text-blue-600 transition duration-200">
+                            <i class="fas fa-download mr-2"></i>
+                            Télécharger le reçu
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiques des dons -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="text-blue-600 text-sm font-medium">Total des dons</div>
+                    <div class="text-2xl font-bold text-blue-800 mt-1" th:text="${#aggregates.sum(dons.![montant]) + ' USD'}">0 USD</div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <div class="text-green-600 text-sm font-medium">Dons complétés</div>
+                    <div class="text-2xl font-bold text-green-800 mt-1" th:text="${#lists.size(dons.?[statutPaiement == 'PAYE'])}">0</div>
+                </div>
+                <div class="bg-yellow-50 p-4 rounded-lg">
+                    <div class="text-yellow-600 text-sm font-medium">En attente</div>
+                    <div class="text-2xl font-bold text-yellow-800 mt-1" th:text="${#lists.size(dons.?[statutPaiement == 'EN_ATTENTE'])}">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

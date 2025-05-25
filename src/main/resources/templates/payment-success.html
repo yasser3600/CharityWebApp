@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      th:lang="${#locale.language}" 
+      th:dir="${#locale.language == 'ar' ? 'rtl' : 'ltr'}">
+<head>
+    <title>Paiement Réussi</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container mt-5">
+            <div class="alert alert-success">
+                <h4>Merci pour votre don!</h4>
+                <p>Votre paiement a été traité avec succès.</p>
+                <a th:href="@{/user/dons}" class="btn btn-primary">Voir mes dons</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

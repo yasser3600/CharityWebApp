@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+    <title>Campagnes</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a75ff;
+            --secondary-blue: #0052cc;
+            --light-blue: #e6f0ff;
+            --dark-blue: #003380;
+            --accent-blue: #00a3ff;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .campaign-card {
+            background: #fff;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(26, 117, 255, 0.08);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .campaign-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(26, 117, 255, 0.2);
+        }
+
+        .campaign-img-wrapper {
+            height: 240px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .campaign-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .campaign-card:hover .campaign-img {
+            transform: scale(1.1);
+        }
+
+        .campaign-category {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            background-color: var(--light-blue);
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-blue));
+            transition: width 1.5s ease;
+        }
+
+        .campaign-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-blue);
+            margin-bottom: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .donation-form input {
+            border: 2px solid var(--light-blue);
+            border-radius: 10px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .donation-form input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(26, 117, 255, 0.2);
+        }
+
+        .donation-btn {
+            background: linear-gradient(45deg, var(--primary-blue), var(--accent-blue));
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .donation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 117, 255, 0.3);
+            background: linear-gradient(45deg, var(--secondary-blue), var(--primary-blue));
+        }
+
+        .filters {
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 20px;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .card-title {
+            color: var(--dark-blue);
+        }
+
+        .card-text {
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <!-- Hero Section -->
+        <div class="hero-section text-center">
+            <div class="container">
+                <h1 class="display-4 mb-3">Ensemble, faisons la différence</h1>
+                <p class="lead mb-4">Découvrez nos campagnes et participez au changement</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <span class="h5 mb-0"><i class="fas fa-heart"></i> <span th:text="${#lists.size(actions)}">0</span> Campagnes actives</span>
+                    <span class="h5 mb-0"><i class="fas fa-hands-helping"></i> <span>1000+</span> Donateurs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container py-4">
+            <!-- Filtres -->
+            <div class="filters">
+                <button class="filter-btn active">Toutes</button>
+                <button class="filter-btn">Urgences</button>
+                <button class="filter-btn">Éducation</button>
+                <button class="filter-btn">Santé</button>
+                <button class="filter-btn">Environnement</button>
+            </div>
+
+            <!-- Liste des campagnes -->
+            <div class="row g-4">
+                <div th:each="action : ${actions}" class="col-12 col-md-6 col-lg-4" data-aos="fade-up">
+                    <div class="campaign-card">
+                        <div class="campaign-img-wrapper">
+                            <img th:if="${action.imageUrl != null}" 
+                                 th:src="${action.imageUrl}"
+                                 class="campaign-img"
+                                 th:alt="${action.titre}">
+                            <img th:unless="${action.imageUrl != null}"
+                                 th:src="@{/uploads/default-campaign.jpg}"
+                                 class="campaign-img"
+                                 alt="Image par défaut">
+                            <div class="campaign-category">Urgence</div>
+                        </div>
+                        
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-3" th:text="${action.titre}">Titre</h5>
+                            <p class="card-text text-muted mb-3" th:text="${action.description}">Description</p>
+                            
+                            <div class="progress">
+                                <div class="progress-bar" 
+                                     th:style="'width: ' + ${(action.montantCollecte/action.objectifCollecte) * 100} + '%'">
+                                </div>
+                            </div>
+                            
+                            <div class="campaign-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value" th:text="${action.montantCollecte + ' USD'}">0 USD</div>
+                                    <div class="stat-label">Collectés</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" th:text="${action.objectifCollecte + ' USD'}">0 USD</div>
+                                    <div class="stat-label">Objectif</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">30</div>
+                                    <div class="stat-label">Jours restants</div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <!-- Bouton visible seulement pour les utilisateurs connectés -->
+                                <th:block sec:authorize="isAuthenticated()">
+                                    <form th:action="@{/api/paiement/create-checkout-session}" 
+                                          method="POST" 
+                                          class="donation-form">
+                                        <input type="hidden" name="actionId" th:value="${action.id}">
+                                        <div class="d-flex gap-2">
+                                            <input type="number" 
+                                                   name="montant" 
+                                                   class="form-control" 
+                                                   placeholder="Montant en USD"
+                                                   min="1" 
+                                                   required>
+                                            <button type="submit" class="donation-btn">
+                                                <i class="fas fa-heart me-2"></i>Faire un don
+                                            </button>
+                                        </div>
+                                    </form>
+                                </th:block>
+
+                                <!-- Message pour les utilisateurs non connectés -->
+                                <th:block sec:authorize="!isAuthenticated()">
+                                    <a th:href="@{/login}" class="donation-btn w-100 text-center text-decoration-none d-block">
+                                        <i class="fas fa-sign-in-alt me-2"></i>Se connecter pour faire un don
+                                    </a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            offset: 100,
+            once: true
+        });
+    </script>
+</body>
+</html>
